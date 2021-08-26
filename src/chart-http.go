@@ -8,6 +8,6 @@ import (
 func main() {
 
 	http.HandleFunc("/chart", scharts.CMChart)
-	http.ListenAndServe(":8081", nil)
+	http.ListenAndServe(":8082", nil)
 
 }

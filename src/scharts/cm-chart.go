@@ -29,11 +29,6 @@ type lineInfo struct {
 	nodes []*node
 }
 
-// func init() {
-// 	reg = `(\d{4}-\d{1,2}-\d{1,2})_(\d{2}:\d{2}:\d{2})[\s\S]*?S\s+((\d+\.*\d+)\s+(\d+\.*\d+)\s+.+?`
-
-// }
-
 func readFileMethod(fileName string) string {
 	f, err := ioutil.ReadFile(fileName)
 	if err != nil {
@@ -84,7 +79,7 @@ func getAxis(path, fileStart, dataType string, reg *regexp.Regexp) []*node {
 	return nodeSlice
 }
 
-func newLine(server, instance, dataType string, lineInfo *lineInfo) *charts.Bar {
+func newBar(server, instance, dataType string, lineInfo *lineInfo) *charts.Bar {
 	xAxis := make([]string, len(lineInfo.nodes))
 	for index, node := range lineInfo.nodes {
 		xAxis[index] = node.XAxis
@@ -194,7 +189,7 @@ func CMChart(w http.ResponseWriter, request *http.Request) {
 
 	for _, lineInfo := range lineInfos {
 		// create a new line instance
-		line := newLine(server, instance, dataType, lineInfo)
+		line := newBar(server, instance, dataType, lineInfo)
 		line.Render(w)
 	}
 	fmt.Println(time.Now().Format(timeTemplate), "生成图表：", server, dataType, instance, logdate)
